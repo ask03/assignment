@@ -18,6 +18,7 @@ pub fn instantiate(
     info: MessageInfo,
     msg: InstantiateMsg,
 ) -> Result<Response, ContractError> {
+    //validate inputted owner address
     let validatedOwner = deps.api.addr_validate(&msg.owner)?;
     let state = State {
         owner: validatedOwner,
@@ -49,6 +50,7 @@ pub fn try_set_score(deps: DepsMut, info: MessageInfo, address: String, score: i
         return Err(ContractError::Unauthorized {});
     }
     let addr = deps.api.addr_validate(&address)?;
+    // inline function to check score for address and update accordingly
     let score_entry = |num_entries: Option<i32>| -> StdResult<i32> {
         match num_entries {
             Some(number) => Ok(score),
@@ -62,7 +64,6 @@ pub fn try_set_score(deps: DepsMut, info: MessageInfo, address: String, score: i
 #[cfg_attr(not(feature = "library"), entry_point)]
 pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
     match msg {
-        // QueryMsg::GetCount {} => to_binary(&query_count(deps)?),
         QueryMsg::GetOwner {} => {
             let state = STATE.load(deps.storage)?;
             to_binary(&state.owner)
