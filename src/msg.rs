@@ -9,7 +9,7 @@ pub struct InstantiateMsg {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum ExecuteMsg {
-    SetScore { address: String, score: i32 },
+    SetScore { address: String, token: String, score: i32 },
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
@@ -17,7 +17,7 @@ pub enum ExecuteMsg {
 pub enum QueryMsg {
     // GetCount returns the current count as a json-encoded number
     GetOwner {},
-    GetScore { address: String },
+    GetScore { address: String, token: String },
 }
 
 // We define a custom struct for each query response
